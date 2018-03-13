@@ -1,2 +1,3 @@
 # Colosseum
-If you're going through hell, keep going.
+
+The repository is used to store all data relating to our final year project entitled Ancient Discovery: AI for Hieroglyphics Recognition.
