@@ -8,13 +8,13 @@
 # N.B.: ImageMagick software suite must be available. If not, please install
 #       by the command `sudo apt-get install imagemagick` on Ubuntu.
 
-#TARGET_DIRECTORY='./Ancient_Chinese_Character_Dataset'
+TARGET_DIRECTORY='./Ancient_Chinese_Character_Dataset'
 TRASH_BIN_DIRECTORY='trash_bin'
 FILES='*.gif'
 FILE_TYPE='GIF image data'
-SIZE_IN_PIXEL=150
+SIZE_IN_PIXEL=100
 
-cd ./Test
+cd $TARGET_DIRECTORY
 if [ ! -d $TRASH_BIN_DIRECTORY ]; then
 	mkdir $TRASH_BIN_DIRECTORY
 fi
@@ -32,7 +32,6 @@ do
 
 		convert $file -background '#FFFFFF' -compose Copy -gravity center -extent\
 		${SIZE_IN_PIXEL}x${SIZE_IN_PIXEL} $file
-
 	else
 		mv $file $TRASH_BIN_DIRECTORY
 		# `file` command may produce wrong result since it simply uses magic
