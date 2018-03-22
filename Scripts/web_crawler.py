@@ -1,16 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-'''
-	Description: A web crawler for Chinese Etymology (http://chineseetymology.org)
-                 gathers all renamed pictures (in .gif format) into a newly-created
-                 folder under the current directory.
-    Author: Yongzhen Ren
-	Credits: Lin Lyu & Lulu Wang
-    Date created: 2018-03-09
-	Known issues: The script treats the same character from simplified and
-                  traditional Chinese differently.
-'''
+# Description: A web crawler for Chinese Etymology (http://chineseetymology.org)
+#              gathers all renamed pictures (in .gif format) into a newly-created
+#              folder under the current directory.
+#              Tested on Python 3.5.
+# Author: Yongzhen Ren
+# Credits: Lin Lyu & Lulu Wang
+# Date created: 2018-03-09
+# Known issues: The script treats the same character from simplified and
+#               traditional Chinese differently.
 
 import os
 import time

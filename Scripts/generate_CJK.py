@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-'''
-	Description: Create a text file in the same directory containing all CJK
-                 unified characters (87870) except 12 ones in the block named
-                 CJK Compatibility Ideographs according to Unicode 10.0.
-    Author: Yongzhen Ren
-	Credits: Lin Lyu & Lulu Wang
-    Date created: 2018-03-06
-'''
+# Description: Create a text file in the same directory containing all CJK
+#              unified characters (87870) except 12 ones in the block named
+#              CJK Compatibility Ideographs according to Unicode 10.0.
+#              Tested on Python 3.5.
+# Author: Yongzhen Ren
+# Credits: Lin Lyu & Lulu Wang
+# Date created: 2018-03-06
 
 output_file = "CJK_Unified_Characters.txt"
 
