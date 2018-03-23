@@ -25,8 +25,9 @@ do
 	fi
 done
 
-rename 's/([^.]*)/\U$1/' $FILES
+ls $FILES | xargs rename 's/([^.]*)/\U$1/'
 # Capitalise all letters in the file name, excluding ones in file extension.
+# `ls` and `xargs` command are used to avoid "Argument list too long" error.
 
 for file in $FILES
 do
