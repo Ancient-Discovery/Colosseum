@@ -52,7 +52,6 @@ if __name__ == "__main__":
 					shutil.move(item, TRAINING_DIRECTORY)
 				for item in filename_list[stop:]:
 					shutil.move(item, TESTING_DIRECTORY)
-
 				# Leave the rest of files in original directory.
 
 		os.chdir("..") # Go back to parent directory.
