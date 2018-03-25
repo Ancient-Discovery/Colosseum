@@ -2,14 +2,14 @@
 
 # Description: Remove all broken .gif image files and resize them under the
 #              same size for deep learning training.
-#              Tested on GNU Bash 4.3.
+#              Tested on GNU Bash v4.3.
 # Author: Yongzhen Ren
 # Credits: Lin Lyu & Lulu Wang
 # Date created: 2018-03-15
 # N.B.: ImageMagick software suite must be available. If not, please install
 #       by the command `sudo apt-get install imagemagick` on Ubuntu.
 
-TARGET_DIRECTORY='./Ancient_Chinese_Character_Dataset'
+TARGET_DIRECTORY='Ancient_Chinese_Character_Dataset'
 TRASH_BIN_DIRECTORY='trash_bin'
 FILES='*.gif'
 FILE_TYPE='GIF image data'

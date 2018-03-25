@@ -9,14 +9,13 @@
 # N.B.: Run the script before BACKING UP raw data since it will change folder
 #       structure permenantly.
 
-TARGET_DIRECTORY='./Ancient_Chinese_Character_Dataset'
+TARGET_DIRECTORY='Ancient_Chinese_Character_Dataset'
 # For two arrays below, the order of items DOES matters.
 CLASSIFICATION_DIRECTORY=('Oracle' 'Bronze' 'Seal' 'LST')
 LABELS=('J' 'B' 'S' 'L')
 FILES='*.gif'
 
 cd $TARGET_DIRECTORY
-
 for directory in ${CLASSIFICATION_DIRECTORY[@]:0}
 do
 	if [ ! -d $directory ]

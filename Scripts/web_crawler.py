@@ -33,7 +33,8 @@ REGEX_PICTURE = r"\w+.\.gif" # Used to form final file name partially.
 PROGRESS_BAR_LENGTH = 30
 
 def progress_bar(count, total):
-# A naive implementation of progress bar in console.
+''' A naive implementation of progress bar in console.
+'''
 	filled_length = int(round(PROGRESS_BAR_LENGTH * count / float(total)))
 	percentage = round(100.0 * count / float(total), 1)
 	bar = '=' * filled_length + '-' * (PROGRESS_BAR_LENGTH - filled_length)
@@ -43,7 +44,16 @@ def progress_bar(count, total):
 
 if __name__ == "__main__":
 	if not os.path.isdir(FOLDER_NAME):
+		try:
+			os.mkdir(FOLDER_NAME)
+		except OSError:
+			print("Cannot create the directory")
 		os.mkdir(FOLDER_NAME)
+	elif not os.path.isdir(FOLDER_NAME):
+	# There is a same-name file as the directory we want to create.
+		print("The name is already used in this location.")
+		raise OSError
+
 	with open(CHAR_LIST_NAME, "r") as fp:
 		char_list = fp.read().split('\n')
 	# The file `CHAR_LIST_NAME` has to be in the same directory of this script.

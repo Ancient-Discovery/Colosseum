@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# Description: Split data set into training sets and testing tests randomly 
+# Description: Split data set into training and validation sets randomly 
 #              for each character.
 #              Tested under Python 3.5 on Ubuntu 16.04.
 # Author: Yongzhen Ren
@@ -14,26 +14,38 @@ import os
 import random
 import shutil
 
-TARGET_DIRECTORY = "./Ancient_Chinese_Character_Dataset"
+TARGET_DIRECTORY = "Ancient_Chinese_Character_Dataset"
 CLASSIFICATION_DIRECTORIES = ['Oracle', 'Bronze', 'Seal', 'LST']
 TRAINING_DIRECTORY = "Training_Set"
-TESTING_DIRECTORY = "Test_Set"
+VALIDATION_DIRECTORY = "Validation_Set"
 SEPARATOR = '_'
 THRESHOLD = 10
-# Each character which has less than or equal to $THRESHOLD images will be used only for testing.
+# Each character which has less than or equal to $THRESHOLD images will be used only for validation.
 TRAINING_SET_RATE = 0.8
 # Percentage of selecting images from each character into training set.
+
+def safe_mkdir(path):
+""" Create a directory if there is not one already.
+"""
+	if not os.path.exists(path):
+		try:
+			os.mkdir(path)
+		except OSError:
+			print("Cannot create the directory")
+	elif not os.path.isdir(path):
+	# There is a same-name file as the directory we want to create.
+		print("The name is already used in this location.")
+		raise OSError
 
 if __name__ == "__main__":
 	os.chdir(TARGET_DIRECTORY)
 	for directory in CLASSIFICATION_DIRECTORIES:
 		character_dict = {}
 		os.chdir(directory)
-		if not os.path.isdir(TRAINING_DIRECTORY):
-			os.mkdir(TRAINING_DIRECTORY)
-		if not os.path.isdir(TESTING_DIRECTORY):
-			os.mkdir(TESTING_DIRECTORY)
-		for root, dirs, files in os.walk("."):
+		safe_mkdir(TRAINING_DIRECTORY)
+		safe_mkdir(VALIDATION_DIRECTORY)
+
+		for root, dirs, files in os.walk(os.getcwd()):
 			for name in files:
 				character = name.split(sep = SEPARATOR)[0]
 				if character in character_dict:
@@ -51,7 +63,6 @@ if __name__ == "__main__":
 				# After shuffling, take previous $stop variables into training set.
 					shutil.move(item, TRAINING_DIRECTORY)
 				for item in filename_list[stop:]:
-					shutil.move(item, TESTING_DIRECTORY)
+					shutil.move(item, VALIDATION_DIRECTORY)
 				# Leave the rest of files in original directory.
-
-		os.chdir("..") # Go back to parent directory.
+		os.chdir(os.pardir) # Go back to parent directory.
