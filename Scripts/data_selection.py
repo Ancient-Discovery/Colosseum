@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# Description: Split data set into training and validation sets randomly 
-#              for each character.
+# Description: Split data set into training and test sets randomly for each 
+#              character according to $THRESHOLD value.
 #              Tested under Python 3.5 on Ubuntu 16.04.
 # Author: Yongzhen Ren
 # Credits: Lin Lyu & Lulu Wang
@@ -17,7 +17,7 @@ import shutil
 TARGET_DIRECTORY = "Ancient_Chinese_Character_Dataset"
 CLASSIFICATION_DIRECTORIES = ['Oracle', 'Bronze', 'Seal', 'LST']
 TRAINING_DIRECTORY = "Training_Set"
-VALIDATION_DIRECTORY = "Validation_Set"
+TEST_DIRECTORY = "TEST_Set"
 SEPARATOR = '_'
 THRESHOLD = 10
 # Each character which has less than or equal to $THRESHOLD images will be used only for validation.
@@ -43,7 +43,7 @@ if __name__ == "__main__":
 		character_dict = {}
 		os.chdir(directory)
 		safe_mkdir(TRAINING_DIRECTORY)
-		safe_mkdir(VALIDATION_DIRECTORY)
+		safe_mkdir(TEST_DIRECTORY)
 
 		for root, dirs, files in os.walk(os.getcwd()):
 			for name in files:
@@ -63,6 +63,6 @@ if __name__ == "__main__":
 				# After shuffling, take previous $stop variables into training set.
 					shutil.move(item, TRAINING_DIRECTORY)
 				for item in filename_list[stop:]:
-					shutil.move(item, VALIDATION_DIRECTORY)
+					shutil.move(item, TEST_DIRECTORY)
 				# Leave the rest of files in original directory.
 		os.chdir(os.pardir) # Go back to parent directory.
