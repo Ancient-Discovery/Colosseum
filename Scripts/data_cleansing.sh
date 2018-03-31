@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Description: Remove all broken .gif image files and resize them under the
+# Description: Remove all corrupted .gif image files and resize them under the
 #              same size for deep learning training.
 #              Tested on GNU Bash v4.3.
 # Author: Yongzhen Ren
@@ -13,7 +13,7 @@ TARGET_DIRECTORY='Ancient_Chinese_Character_Dataset'
 TRASH_BIN_DIRECTORY='trash_bin'
 FILES='*.gif'
 FILE_TYPE='GIF image data'
-SIZE_IN_PIXEL=100
+SIZE_IN_PIXEL=80
 
 cd $TARGET_DIRECTORY
 if [ ! -d $TRASH_BIN_DIRECTORY ]
@@ -26,8 +26,11 @@ do
 	magic_number=$(file --brief $file)
 	if [[ $magic_number =~ $FILE_TYPE ]]
 	then
-		mogrify -sample ${SIZE_IN_PIXEL}x${SIZE_IN_PIXEL} -negate $file
-		# Without using `-resize` parametre, aliasing effect will appear,
+		mogrify -trim +repage -negate -sample ${SIZE_IN_PIXEL}x${SIZE_IN_PIXEL} $file
+		# `-trim` option is used to remove white borders around the original images;
+		# `+repage` is used to adjust the canvas to the same size of the actual image.
+		# `-negate` is used to reverse image colors.
+		# Without using `-resize` parametre, aliasing effect will appear when `-sample` is applied,
 		# fortunately, which is exactly what we want here.
 		# Details are explained here:
 		# https://www.imagemagick.org/Usage/filter/#aliasing
@@ -37,7 +40,7 @@ do
 	else
 		mv $file $TRASH_BIN_DIRECTORY
 		# `file` command may produce wrong results since it simply uses magic
-		# number; therefore do check $TRASH_BIN_DIRECTORY in $TARGET_DIRECTORY
+		# number; therefore DO check $TRASH_BIN_DIRECTORY in $TARGET_DIRECTORY
 		# after running the script to make sure no normal .gif files are in it.
 	fi
 done

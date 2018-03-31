@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Description: Capitalise all file names and divide all .gif images into four
-#              pre-set groups.
+#              pre-set categories.
 #              Tested on GNU Bash v4.3.
 # Author: Yongzhen Ren
 # Credits: Lin Lyu & Lulu Wang
@@ -16,6 +16,16 @@ LABELS=('J' 'B' 'S' 'L')
 FILES='*.gif'
 
 cd $TARGET_DIRECTORY
+
+ls | xargs rename 's/([^.]*)/\U$1/'
+# Capitalise all letters in the file name, excluding ones in file extension.
+# If an error message "Argument list too long" is raised, which is caused by
+# a Linux kernel limitation; just do not panic and run the script for multiple times.
+# This issue is explained by two links below:
+# https://wiki.debian.org/CommonErrorMessages/ArgumentListTooLong
+# and
+# https://stackoverflow.com/questions/11289551/argument-list-too-long-error-for-rm-cp-mv-commands
+
 for directory in ${CLASSIFICATION_DIRECTORY[@]:0}
 do
 	if [ ! -d $directory ]
@@ -23,10 +33,6 @@ do
 		mkdir $directory
 	fi
 done
-
-ls $FILES | xargs rename 's/([^.]*)/\U$1/'
-# Capitalise all letters in the file name, excluding ones in file extension.
-# `ls` and `xargs` command are used to avoid "Argument list too long" error.
 
 for file in $FILES
 do
