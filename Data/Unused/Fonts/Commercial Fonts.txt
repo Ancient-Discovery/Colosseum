@@ -1,0 +1,8 @@
+Seal script fonts:
+方正小篆体 http://www.foundertype.com/index.php/FontInfo/index.html?id=165
+方正字迹-周崇谦小篆简体 http://www.foundertype.com/index.php/FontInfo/index.html?id=282
+汉仪粗篆 http://www.hanyi.com.cn/productdetail.php?id=623
+汉仪篆书 http://www.hanyi.com.cn/productdetail.php?id=450
+
+Oracle bone script font:
+汉仪陈体甲骨文 http://www.hanyi.com.cn/productdetail.php?id=2638
