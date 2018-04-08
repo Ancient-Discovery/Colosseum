@@ -37,6 +37,7 @@ def retrieveImageAndLabels(border_pixel_size,class_path):
 		else:
 			img=np.append(img,img_current)
 			label=np.append(label,label_current)
+			# Apply ensemble training.
 		
 	number=img.shape[0]//border_pixel_size//border_pixel_size
 	labelNumber=label.shape[0]//character_number
@@ -216,19 +217,3 @@ end=time.clock()-start
 end_loop=time.clock()-start_loop_time
 print("训练用时"+str(end_loop)+"秒")
 print("总用时"+str(end)+"秒")
-
-
-
-
-
-
-
-	
-
-
-
-
-
-
-	
-
