@@ -1,3 +1,10 @@
+'''
+The script is a CNN implementation. You can adjust the parameters in it.
+You can change the image border size, the location of triaining set and testing set to run the program.
+
+'''
+
+
 import tensorflow as tf
 # from sklearn import datasets
 import numpy as np
@@ -104,8 +111,9 @@ def max_pool_2x2(x):
 	return tf.nn.max_pool(x,ksize=[1,2,2,1],strides=[1,2,2,1],padding='SAME')
 
 
-
+# 图像边长
 border_pixel_size=100
+# 训练集目录
 class_path=r"G:\Final_Project\Oracle_5K\Oracle_1\Training_Set"+'\\'
 image_all,label_all=retrieveImageAndLabels(border_pixel_size,class_path)
 character_number=label_all.shape[1]
@@ -114,9 +122,7 @@ image_number=label_all.shape[0]
 get_image_time=time.clock()-start
 print("文件已读取完毕，用时"+str(get_image_time)+"秒")
 
-# print(batch_xs.shape)
-# print(batch_ys.shape)
-
+# 测试集目录
 test_pic_path=r"G:\Final_Project\Oracle_5K\Oracle_1\Test_Set"+"\\"
 test_x,test_y=retrieveImageAndLabels(border_pixel_size,test_pic_path)
 
