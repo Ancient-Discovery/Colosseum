@@ -1,3 +1,8 @@
+'''
+This is a web crawler for website: http://hanziyuan.net/etymology
+This will download four kinds of ancient characters to local.
+'''
+
 # -*- coding: UTF-8 -*-
 import requests
 import re
