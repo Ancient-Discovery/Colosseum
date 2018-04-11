@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-# Description: Remove all corrupted .gif image files and resize them under the
-#              same size for deep learning training.
+# Description: Remove all corrupted .gif image files and process them for training
+#              neural networks.
 #              Tested on GNU Bash v4.3.
 # Author: Yongzhen Ren
 # Credits: Lin Lyu & Lulu Wang
