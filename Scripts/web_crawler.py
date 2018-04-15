@@ -15,7 +15,8 @@ import os
 import time
 import re
 import requests
-from sys import stdout
+
+import utils
 
 FOLDER_NAME = "Ancient_Chinese_Character_Dataset"
 CHAR_LIST_NAME = "CJK_Unified_Characters.txt"
@@ -30,30 +31,8 @@ RECONNECTION_INTERVAL = 10
 REGEX_GIF = r"\/[^\s\\]+\.gif" # Used to find all .gif file links.
 REGEX_PICTURE = r"\w+.\.gif" # Used to form final file name partially.
 
-PROGRESS_BAR_LENGTH = 30
-
-def progress_bar(count, total):
-''' A naive implementation of progress bar in console.
-'''
-	filled_length = int(round(PROGRESS_BAR_LENGTH * count / float(total)))
-	percentage = round(100.0 * count / float(total), 1)
-	bar = '=' * filled_length + '-' * (PROGRESS_BAR_LENGTH - filled_length)
-	proportion = '(' + str(count) + ' / ' + str(total) + ')'
-	stdout.write('[%s] %s%s %s \r' % (bar, percentage, '%', proportion))
-	stdout.flush()
-
 if __name__ == "__main__":
-	if not os.path.isdir(FOLDER_NAME):
-		try:
-			os.mkdir(FOLDER_NAME)
-		except OSError:
-			print("Cannot create the directory")
-		os.mkdir(FOLDER_NAME)
-	elif not os.path.isdir(FOLDER_NAME):
-	# There is a same-name file as the directory we want to create.
-		print("The name is already used in this location.")
-		raise OSError
-
+	utils.safe_mkdir(FOLDER_NAME)
 	with open(CHAR_LIST_NAME, "r") as fp:
 		char_list = fp.read().split('\n')
 	# The file `CHAR_LIST_NAME` has to be in the same directory of this script.
@@ -63,7 +42,7 @@ if __name__ == "__main__":
 	current_progress = 1
 
 	for index in range(0, overall_progress):
-		progress_bar(current_progress, overall_progress)
+		utils.progress_bar(current_progress, overall_progress)
 		URL = DOMAIN_NAME + INPUT_SRC + char_list[index]
 		try:
 			html = requests.request("GET", URL, timeout = TIMEOUT_SECONDS)

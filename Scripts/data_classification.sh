@@ -13,7 +13,7 @@ TARGET_DIRECTORY='Ancient_Chinese_Character_Dataset'
 # For two arrays below, the order of items DOES matters.
 CLASSIFICATION_DIRECTORY=('Oracle' 'Bronze' 'Seal' 'LST')
 LABELS=('J' 'B' 'S' 'L')
-FILES='*.gif'
+FILE_EXTENSION='*.gif'
 
 cd $TARGET_DIRECTORY
 
@@ -34,7 +34,7 @@ do
 	fi
 done
 
-for file in $FILES
+for file in $FILE_EXTENSION
 do
 	for (( index=0; index<${#LABELS[@]}; index++ ))
 	do

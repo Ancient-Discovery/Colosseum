@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Description: Split data set into training and test sets randomly for each 
-#              character according to $THRESHOLD value.
+#              character according to `THRESHOLD` value.
 #              Tested under Python 3.5 on Ubuntu 16.04.
 # Author: Yongzhen Ren
 # Credits: Lin Lyu & Lulu Wang
@@ -14,36 +14,25 @@ import os
 import random
 import shutil
 
+import utils
+
 TARGET_DIRECTORY = "Ancient_Chinese_Character_Dataset"
 CLASSIFICATION_DIRECTORIES = ['Oracle', 'Bronze', 'Seal', 'LST']
 TRAINING_DIRECTORY = "Training_Set"
 TEST_DIRECTORY = "Test_Set"
 SEPARATOR = '_'
 THRESHOLD = 10
-# Each character which has less than or equal to $THRESHOLD images will be used only for validation.
+# Each character which has less than or equal to `THRESHOLD` images will be used only for test.
 TRAINING_SET_RATE = 0.8
 # Percentage of selecting images from each character into training set.
-
-def safe_mkdir(path):
-""" Create a directory safely if there is not one already.
-"""
-	if not os.path.exists(path):
-		try:
-			os.mkdir(path)
-		except OSError:
-			print("Cannot create the directory")
-	elif not os.path.isdir(path):
-	# There is a same-name file as the directory we want to create.
-		print("The name is already used in this location.")
-		raise OSError
 
 if __name__ == "__main__":
 	os.chdir(TARGET_DIRECTORY)
 	for directory in CLASSIFICATION_DIRECTORIES:
 		character_dict = {}
 		os.chdir(directory)
-		safe_mkdir(TRAINING_DIRECTORY)
-		safe_mkdir(TEST_DIRECTORY)
+		utils.safe_mkdir(TRAINING_DIRECTORY)
+		utils.safe_mkdir(TEST_DIRECTORY)
 
 		for root, dirs, files in os.walk(os.getcwd()):
 			for name in files:

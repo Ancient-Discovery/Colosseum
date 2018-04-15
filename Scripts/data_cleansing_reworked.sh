@@ -16,7 +16,7 @@
 
 TARGET_DIRECTORY='Ancient_Chinese_Character_Dataset'
 TRASH_BIN_DIRECTORY='trash_bin'
-FILES='*.gif'
+FILE_EXTENSION='*.gif'
 FILE_TYPE='GIF image data'
 SIZE_IN_PIXEL=48
 
@@ -26,7 +26,7 @@ then
 	mkdir $TRASH_BIN_DIRECTORY
 fi
 
-for file in $FILES
+for file in $FILE_EXTENSION
 do
 	magic_number=$(file --brief $file)
 	if [[ $magic_number =~ $FILE_TYPE ]]
