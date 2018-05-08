@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# Description: Generate a set of images of all CJK unified characters (87870
+# Description: Generate a set of images of all CJK unified characters (87870)
 #              except 12 ones in the block named CJK Compatibility Ideographs
 #              according to Unicode 10.0.
 #              Tested under Python 3.5 on Ubuntu 16.04 with Hanazono v20170904
@@ -9,8 +9,8 @@
 # Author: Yongzhen Ren
 # Credits: Lin Lyu & Lulu Wang
 # Date created: 2018-04-09
-# N.B.: Hanazono fonts must be available in the same directory. If not, please
-#       download the newest version from here: http://fonts.jp/hanazono/.
+# N.B.: Two Hanazono fonts file must be available in the same directory.
+#       If not, please download the newest version from here: http://fonts.jp/hanazono/.
 
 from PIL import Image, ImageDraw, ImageFont
 import random
@@ -31,10 +31,11 @@ SET_B = [CJK_UI_EX_B, CJK_UI_EX_C, CJK_UI_EX_D, CJK_UI_EX_E, CJK_UI_EX_F]
 LIST_OF_TWO_SETS = [SET_A, SET_B]
 
 SIZE_IN_PIXEL = 48 # Size of images in training set.
-COLOUR_MODE = "RGB"
+COLOUR_MODE = "L"
+# 8-bit pixels, black and white; the default background colour is black.
 IMAGE_SIZE = (SIZE_IN_PIXEL, SIZE_IN_PIXEL)
-BACKGROUND_COLOUR = (0, 0, 0)
-CHARACTER_COLOUR = (255, 255, 255)
+BACKGROUND_COLOUR = 0
+CHARACTER_COLOUR = 255
 
 FONT_A_PATH = "HanaMinA.ttf" # It contains CJK Unified Ideographs and extension A.
 FONT_B_PATH = "HanaMinB.ttf" # It contains extension B to F.
@@ -55,7 +56,7 @@ if __name__ == "__main__":
 		for block in LIST_OF_TWO_SETS[i]:
 			for code_point in range(block[0], block[1] + 1):
 				char = chr(code_point)
-				image = Image.new(COLOUR_MODE, IMAGE_SIZE, BACKGROUND_COLOUR)
+				image = Image.new(COLOUR_MODE, IMAGE_SIZE, color = BACKGROUND_COLOUR)
 				draw = ImageDraw.Draw(image)
 				draw.fontmode = "1"
 				# The mask `fontmode` is set to 1, which means NO anti-alias effect.

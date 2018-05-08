@@ -13,8 +13,8 @@ from sys import stdout
 PROGRESS_BAR_LENGTH = 30
 
 def safe_mkdir(path):
-	''' Create a directory safely if there is not one already.
-	'''
+	""" Create a directory safely if there is not one already.
+	"""
 	if not os.path.exists(path):
 		try:
 			os.mkdir(path)
@@ -26,8 +26,8 @@ def safe_mkdir(path):
 		raise OSError
 
 def progress_bar(count, total):
-	''' A naive implementation of progress bar in console.
-	'''
+	""" A naive implementation of progress bar in console.
+	"""
 	filled_length = int(round(PROGRESS_BAR_LENGTH * count / float(total)))
 	percentage = round(100.0 * count / float(total), 1)
 	bar = '=' * filled_length + '-' * (PROGRESS_BAR_LENGTH - filled_length)

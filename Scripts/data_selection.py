@@ -17,10 +17,10 @@ import shutil
 import utils
 
 TARGET_DIRECTORY = "Ancient_Chinese_Character_Dataset"
-CLASSIFICATION_DIRECTORIES = ['Oracle', 'Bronze', 'Seal', 'LST']
+CLASSIFICATION_DIRECTORIES = ["Oracle", "Bronze", "Seal", "LST"]
 TRAINING_DIRECTORY = "Training_Set"
 TEST_DIRECTORY = "Test_Set"
-SEPARATOR = '_'
+SEPARATOR = "_"
 THRESHOLD = 10
 # Each character which has less than or equal to `THRESHOLD` images will be used only for test.
 TRAINING_SET_RATE = 0.8
