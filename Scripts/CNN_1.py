@@ -4,7 +4,6 @@ You can change the image border size, the location of triaining set and testing 
 
 '''
 
-
 import tensorflow as tf
 # from sklearn import datasets
 import numpy as np
@@ -222,19 +221,3 @@ end=time.clock()-start
 end_loop=time.clock()-start_loop_time
 print("训练用时"+str(end_loop)+"秒")
 print("总用时"+str(end)+"秒")
-
-
-
-
-
-
-
-	
-
-
-
-
-
-
-	
-
