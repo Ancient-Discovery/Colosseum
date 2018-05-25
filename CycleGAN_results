@@ -1,2 +1,0 @@
-This folder consists of the display of oracle-bronze, oracle-simplified CycleGAN model results using a website.
-The path of .\j2b\Oracle, .\j2b\Bronze and .\j2s\Character_Dataset in python scripts need to be replaced by the path of 80x80 whole oracle dataset, complete 80x80 bronze dataset and complete Character_Dataset respectively.
