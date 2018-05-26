@@ -35,7 +35,7 @@ do
 		# Details are explained here:
 		# https://www.imagemagick.org/Usage/filter/#aliasing
 
-		convert $file -background '#000000' -compose Copy -gravity center -extent\
+		convert $file -background "#000000" -compose Copy -gravity center -extent\
 		${SIZE_IN_PIXEL}x${SIZE_IN_PIXEL} $file
 	else
 		mv $file $TRASH_BIN_DIRECTORY

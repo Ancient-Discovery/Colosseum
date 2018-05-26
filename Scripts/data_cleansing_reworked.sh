@@ -34,12 +34,12 @@ do
 		mogrify -trim +repage -negate -sample ${SIZE_IN_PIXEL}x${SIZE_IN_PIXEL} $file
 		# `-trim` option is used to remove white borders around the original images;
 		# `+repage` is used to adjust the canvas to the same size of the actual image;
-		# `-negate` option is used to reverse image colors and `-morphology` open only works on black background.
+		# `-negate` option is used to reverse image colors.
 		# Without using `-resize` parametre, aliasing effect will appear when `-sample` is applied,
 		# fortunately, which is exactly what we want here.
 		# Details are explained here:
 		# https://www.imagemagick.org/Usage/filter/#aliasing
-		convert $file -background '#000000' -compose Copy -gravity center -extent\
+		convert $file -background "#000000" -compose Copy -gravity center -extent\
 		${SIZE_IN_PIXEL}x${SIZE_IN_PIXEL} -morphology Thinning:-1 Skeleton:2 $file
 		# Put current image in the centre of black background and thin it down to a skeleton.
 		# Details are explained here:

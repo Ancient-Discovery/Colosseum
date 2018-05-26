@@ -21,8 +21,8 @@ CJK_UI_EX_F = (0x2CEB0, 0x2EBE0)
 BLOCKS = [CJK_UI, CJK_UI_EX_A, CJK_UI_EX_B, CJK_UI_EX_C, CJK_UI_EX_D, CJK_UI_EX_E, CJK_UI_EX_F]
 
 if __name__ == "__main__":
-	with open(OUTPUT_FILE, 'w') as fp:
+	with open(OUTPUT_FILE, "w") as fp:
 		for block in BLOCKS:
 			for code_point in range(block[0], block[1] + 1):
 			# Inclusive.
-				fp.write(chr(code_point) + '\n')
+				fp.write(chr(code_point) + "\n")
