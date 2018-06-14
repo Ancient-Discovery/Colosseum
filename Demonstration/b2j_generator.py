@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # Description: Generate a simple .html file for demenstration 
 # 			   of transformation from bronze to oracle, along with target oracle
-#			  Tested under Python 3.6 on Win10.
+#			   Tested under Python 3.6 on Win10.
 # Author: Lin Lyu
 # Credits: Yongzhen Ren & Lulu Wang
 # Date created: 2018-05-20

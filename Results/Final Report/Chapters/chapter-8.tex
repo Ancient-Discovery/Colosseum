@@ -1,0 +1,15 @@
+\chapter{Possible Future Work}
+Here are several work that may be done in the future and possible development directions:
+\begin{itemize}
+	\item First Visualise first-layer weights to decide next training direction; visualise convolutional kernels of CNN using Deep Visualization Toolbox\footnote{\url{https://github.com/yosinski/deep-visualization-toolbox}} and try to gain more insight into the functionality of each layer, improving accuracy further.
+	\item Continue applying skeleton recognition skills on our trained model.
+	\item DualGAN\cite{DBLP:journals/corr/YiZTG17}, which is an enhanced version of CGAN, can be applied to improve performance;and DiscoGAN\cite{DBLP:journals/corr/KimCKLK17} also uses two pairs of generators and discriminators like CycleGAN, but in DiscoGAN, authors used conv, deconv and leaky ReLU function to build generators and used only conv along with ReLU to make discriminators, which may have bright future on character recognition.
+	\item For simplifying our code, and eliminating boilerplate code, we may turn lightweight but experimental framework TensorFlow-Slim\footnote{\url{https://github.com/tensorflow/tensorflow/tree/master/tensorflow/contrib/slim}}, which can at least increase readability and maintainability in our small-scale experiments. Or some APIs offering higher-level logic and abstraction is also a nice potential option, including TFLearn\footnote{\url{http://tflearn.org/}} and Theano (mentioned in \ref{ch:setup}) instead of sticking on TensorFLow.
+	\item Examine potential relationships between oracle bone scripts and other Chinese scripts.
+	\item Extract inscriptions directly from stone rubbing photos. And word embedding can be applied since context is available. Here is websites that could be used as data sources:
+	\begin{itemize}
+		\item \url{http://www.guoxuedashi.com/} (in simplified Chinese) contains a huge amount of high definition photocopies of classic ancient Chinese collections.
+		\item \url{http://sinology.teldap.tw/index.php/reslook/rs144/rs14411} (in traditional Chinese) is set up by Academia Sinica and heavily relies on unearthed literature of oracle bone scripts.
+		\item \url{http://sinology.teldap.tw/index.php/reslook/rs144/rs1442} is similar to the one above but based on bronze scripts.
+	\end{itemize}
+\end{itemize}

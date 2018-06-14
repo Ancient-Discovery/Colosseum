@@ -32,5 +32,3 @@ def generate_index_file(index_path):
 
 if __name__ == "__main__":
 	generate_index_file(INDEX_PATH)
-
-

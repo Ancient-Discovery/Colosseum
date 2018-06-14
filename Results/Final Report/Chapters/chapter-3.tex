@@ -1,0 +1,36 @@
+\chapter{Environment Setup}\label{ch:setup}
+Here we introduction our project environment setup, including related software selections and installations.
+
+\section{Hardware Preparation}
+Here we use a high-end remote server located in Ireland, by courtesy of University College Dublin, with seventy-two Intel Xeon\textsuperscript{\textregistered} E5-2695 CPUs and four Nvidia GeForce\textsuperscript{\textregistered} GTX 1080 Titan GPUs running on Ubuntu 16.04 LTS (Xenial Xerus).
+
+\section{Python Version Selection}
+Both Python 2.x and 3.x are pre-installed for Ubuntu. Here are listed what is considered in terms of selecting between Python 2.x and 3.x: in the world of Python 2, \texttt{str} object has to be converted to a Unicode object right after calling \texttt{str.decode('utf-8')} on the ground that Python 2 interpreter just treats it as a sequence of bytes rather than real Unicode characters. Therefore, for a statement like \texttt{len(unicode\_str)}, the reture value is the size of bytes stored in memory, which may not equal to the number of readable characters on screen (considering that one Unicode character could hold up to 6 bytes in UTF-8 encoding system). In Python 3, however, the largest difference is that the \texttt{str} type actually holds UTF-8 characters in UTF-8, which is a one-off solution to avoid nastiness since we have to cope with Unicode characters all the time.
+
+\section{TensorFlow}
+TensorFlow\footnote{\url{https://www.tensorflow.org/}} is an open source (under Apache 2.0 License) deep learning programming framework maintained by Google Brain team, which uses C++ as the development tool for performance, and provides Python and C APIs with automatic differentiation resembling Theano\footnote{\url{http://www.deeplearning.net/software/theano/}}; it uses ``unified dataflow graph to represent both the computation in an algorithm and the state on which the algorithm operates''\cite{DBLP:journals/corr/AbadiBCCDDDGIIK16}, with edges carrying multidimensional data arrays (a.k.a. tensors) and nodes representing actual mathematical operations applied on them. And it allows users to run each node from TensorFlow programs on different architectures (desktop CPUs, GPUs, TPUs and even mobile platforms) flexibility. Originally only for Google Brain Team's internal use, it was released on November 2015, and became a de-facto industrial standard of deep learning. Compared to other framework in this domain, one of obvious disadvantages is lack of support for OpenMP and OpenCL, which is not an issue at all in our case.
+
+And according to \cite{DBLP:journals/corr/BahrampourRSS15}, though TensorFlow performance of running LeNet and AlexNet ``on a single GPU is not as competitive compare to the other studied framework'', compared to Theano, TensorFlow offers the even more flexible multiple GPU support among all popular deep learning libraries, which is the reason that we insists using multiple GPUs to squeeze performance. Therefore, we use TensorFlow for its customisation, flexibility and popularity.
+
+\section{Related software Installation}
+To make GPUs fully work on Ubuntu, from our painful experience, we highly recommend one who works on similar specification to install CUDA Toolkit legacy version \texttt{9.0}\footnote{\url{https://docs.nvidia.com/cuda/cuda-installation-guide-linux/}} instead of the newest version 9.1, cuDNN SDK v7\footnote{\url{https://docs.nvidia.com/deeplearning/sdk/cudnn-install/\#installlinux}} and update Nvidia GPU drivers\footnote{\url{http://nvidia.com/driver}} \textbf{before} installing TensorFlow and its virtual environment Virtualenv (if necessary).
+
+Typically, for one computer which installs Python 3.4+, pip\footnote{\url{https://pypi.org/project/pip/}}, a tool for Python package management, is all set and can only run the command below:
+
+\textbf{(with root privilege)} \texttt{pip3 install tensorflow-gpu}
+
+Currently the latest GPU version of TensorFlow is v1.8.0. All installed packages are listed below: \texttt{absl, astor, bleach, gast, grpcio, html5lib, numpy, protobuf, tensorboard, termcolor, werkzeug, tensorflow-gpu}.
+
+In terms of image processing, ImageMagick\textsuperscript{\textregistered}, a free and open source software suite for converting and editing images in console, offer us three useful commands: \texttt{identify} (used to describe the formats and characteristics of one or more image files), \texttt{mogrify} (used to resize an image, blur, crop, despeckle, dither, draw on, flip, join, re-sample and overwrite the original file) and \texttt{convert} (similar to \texttt{mogrify}, used only to do conversion between images). Installing it by:
+
+\textbf{(with root privilege)} \texttt{apt install imagemagick}
+
+\section{Other Python Packages}
+There are other Python packages that we used to build our project:
+\begin{itemize}
+	\item \textbf{Scipy}\footnote{\url{https://www.scipy.org/}} A huge library of scientific computing, built on multidimensional array provided by \texttt{Numpy}; used to apply sparse matrix calculation.
+	\item \textbf{Matplotlib}\footnote{\url{https://matplotlib.org/}} A Matlab-like 2D plotting library; used to display data distribution visually.
+	\item \textbf{Requests}\footnote{\url{http://docs.python-requests.org/}} An elegant API to send HTTP/1.1 requests rather than built-in Python library \texttt{urllib2}; used in web crawler part of our project.
+	\item \textbf{Pillow}\footnote{\url{https://pillow.readthedocs.io/}} A friendly fork of original PIL (Python Imaging Library); a lightweight library to process images; used to load images into tensors.
+	\item \textbf{OpenCV}\footnote{\url{https://opencv.org/}} A powerful free image processing library with Python implementation under a BSD license written in C++.
+\end{itemize}

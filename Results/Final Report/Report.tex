@@ -1,0 +1,83 @@
+\documentclass[thesis, a4paper, 11pt]{Format}
+\usepackage{CJKutf8} % Chinese language support.
+\usepackage{textcomp} % For registered symbol.
+\usepackage{booktabs} % Generate tables.
+\usepackage{listings} % List code.
+\usepackage{color} % Code highlight colors.
+
+\definecolor{Numbers}{rgb}{0.5, 0.0, 0.0}
+\definecolor{Strings}{rgb}{0.0, 0.65, 0.0}
+\definecolor{Keywords}{rgb}{0.0, 0.0, 1.0}
+\definecolor{Comments}{rgb}{0.0, 0.65, 1.0}
+\definecolor{Background}{rgb}{0.9, 0.9, 0.9}
+
+\lstset{ 
+	backgroundcolor=\color{Background},
+	commentstyle=\color{Comments},
+	keywordstyle=\color{Keywords},
+	numberstyle=\tiny\color{Numbers},
+	stringstyle=\color{Strings},
+	basicstyle=\ttfamily\small\setstretch{1},
+	captionpos=b, % Set the caption-position to bottom.
+	frame=single, % Add a frame around the code.
+	numbers=left, % Line-numbers are on the left hand side.
+	numbersep=5pt, % The distance between line-numbers and the code.
+	stepnumber=1, % Each line will be numbered.
+	tabsize=4,
+}
+
+\renewcommand{\baselinestretch}{1.5}
+\makeindex
+
+\graphicspath{{Figures/}} % Specify paths where figures are located.
+
+\begin{document}
+	\pagenumbering{alph} % This is needed to clear certain issues with the hyperref package.
+
+	\addToPDFBookmarks{0}{Front}{rootNode}
+	% Create a root node named "Front" in the pdf bookmarks.
+
+	\pagenumbering{roman}
+	\addToPDFBookmarks{1}{Title}{i}
+	\makeTitlePage
+
+	\addToPDFBookmarks{1}{Abstract}{ii}
+	\include{Front/abstract}
+
+	\addToPDFBookmarks{1}{Acknowledgements}{iii}
+	\include{Front/acknowledgements}
+
+	\addToPDFBookmarks{0}{Table of Contents}{iv}
+	\tableofcontents
+
+	%\addToTOC{List of Tables}
+	%\listoftables
+	\addToTOC{List of Figures}
+	\listoffigures
+
+	\newpage
+	\pagenumbering{arabic}
+	\setcounter{page}{1}
+
+	\include{Chapters/chapter-1}
+	\include{Chapters/chapter-2}
+	\include{Chapters/chapter-3}
+	\include{Chapters/chapter-4}
+	\include{Chapters/chapter-5}
+	\include{Chapters/chapter-6}
+	\include{Chapters/chapter-7}
+	\include{Chapters/chapter-8}
+	\addToTOC{References}
+	%\makeBibliographyPage
+	\bibliographystyle{IEEEtran}
+	\bibliography{References/references}
+
+	%\makeAppendixPage
+	\appendix
+	\include{Back/appendix-1}
+	\include{Back/appendix-2}
+	\include{Back/appendix-3}
+	\include{Back/appendix-4}
+	\include{Back/appendix-5}
+	\nocite{*}
+\end{document}

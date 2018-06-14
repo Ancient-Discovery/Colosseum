@@ -1,0 +1,91 @@
+\chapter{Data}
+High-quality training data is the cornerstone for any deep-learning-based projects; that's why we gathered image data from different sources due to mutual corroboration, unified formats, merged them carefully into one group, and then tailored them to the same size for further training. For some special cases, we also processed these huge amount of images technically in order to improve our algorithm's overall performance (details in \ref{sec:MM}).
+
+\section{Data Collection}
+Firstly, we set up a CJK character set generator, used to create a text file of characters that we may possibly work on in the future. And the script \texttt{generate\_CJK.py} was used to generate all CJK unified characters from BMP (Basic Multilingual Plane) and all extensions (from A to F)\footnote{Further details can be found in Unicode standard: \url{https://www.unicode.org/standard/standard.html}}, which involves 87870 different glyphs in total. A text document entitled \texttt{CJK\_Unified\_Characters.txt} was generated to hold all data in human-readable form.
+\begin{lstlisting}[language = Python, caption = Character Generation]
+OUTPUT_FILE = "CJK_Unified_Characters.txt"
+CJK_UI = (0x4E00, 0x9FEA)
+CJK_UI_EX_A = (0x3400, 0x4DB5)
+CJK_UI_EX_B = (0x20000, 0x2A6D6)
+CJK_UI_EX_C = (0x2A700, 0x2B734)
+CJK_UI_EX_D = (0x2B740, 0x2B81D)
+CJK_UI_EX_E = (0x2B820, 0x2CEA1)
+CJK_UI_EX_F = (0x2CEB0, 0x2EBE0)
+BLOCKS = [CJK_UI, CJK_UI_EX_A, CJK_UI_EX_B, CJK_UI_EX_C,\
+CJK_UI_EX_D, CJK_UI_EX_E, CJK_UI_EX_F]
+with open(OUTPUT_FILE, "w") as fp:
+	for block in BLOCKS:
+		for code_point in range(block[0], block[1] + 1):
+			fp.write(chr(code_point) + "\n")
+\end{lstlisting}
+
+With concrete guidelines for which characters to find, we tried to build web crawlers separately to achieve diversity of data sources\footnote{Two websites that we used to crawl data from: \url{http://chineseetymology.org/} and \url{http://hanziyuan.net/}.}. Basically both of two web crawlers \texttt{total\_download.py} and \texttt{web\_crawler.py} gathered all renamed images in .gif format into a newly-created directory\footnote{Our self-made function called \texttt{safe\_mkdir} is used to make new directory, which can handle issues caused by unstable SSH connection between server and our local machines.} called \texttt{Ancient\_Chinese\_Character\_Dataset}. Since execution time was tremendously long, a simple progress bar was implemented to show real-time download progress in the console and relative code can be found in \texttt{utils.py}. Websites contains Anti-spider JavaScript code to routinely check useragent string and cookies files to limit data flow according to IP addresses. Therefore, \texttt{timeout} option is explicitly added to cope with possible \texttt{requests.exceptions.ReadTimeout} exception raised by \texttt{requests} library.
+
+\begin{CJK*}{UTF8}{gbsn} Two web crawlers collected more than a hundred thousand images. All files were renamed to obey the following format: \textlangle{}Character\textrangle{}\_\textlangle{}Type \textrangle{}\textlangle{}5-Digit Index\textrangle{}.gif. In Type section, letter ``J'', ``B'', ``L'', and ``S'' represent oracle bone scripts from Jia Gu Wen Bian (Chinese: 甲骨文编), bronze scripts from Jin Wen Bian (Chinese: 金文编), seal scripts from Liu Shu Tong (Chinese: 六书通) and Shuowen Jiezi (Chinese: 说文解字) respectively.\end{CJK*}
+
+\section{Data Processing}
+To fix the issue that some simplified Chinese characters and traditional ones are mapped to the exact set of images, we first combined two datasets, removed duplicated ones half-manually and left only simplified ones. All repetitive pairs of characters were recorded in \texttt{Duplicated\_Characters.txt} text document for backup.
+
+The new raw data set contained 112323 .gif image files crawled from two websites, including roughly hundreds of corrupted files. And a Bash shell script \texttt{data\_cleansing.sh} was written to remove all corrupted .gif image files together in a directory called \texttt{trash\_bin}, and continued to process rest of images. The statistics of dataset are shown in Table \ref{t:statistics}.
+\begin{CJK*}{UTF8}{gbsn}
+	\begin{table}[h]
+		\centering
+		\begin{tabular}{@{}cccc@{}}
+			\toprule
+			Category     & Image Number & Character Number\footnotemark & Most Character (Number) \\ \midrule
+			Oracle       & 24144      & 971, 429, 298   & 芳(291) \\
+			Bronze       & 26528      & 1943, 516, 299  & 显(482) \\
+			Seal         & 29517      & 10023, 12, 12   & 亦(1887) \\
+			Liu Shu Tong & 32134      & 5379, 932, 312  & 寿(140) \\ \bottomrule
+		\end{tabular}
+		\caption{Statistics of all valid data}
+		\label{t:statistics}
+	\end{table}
+\end{CJK*}
+\footnotetext{Three numbers are character images in total, characters with more than 10 images, and one with more than 20 images respectively.}
+
+And next step is image size selection and cleansing. The original black and white (binary) images from NIST were size normalized to fit in a 100px$ \times $100px box while keeping their aspect ratio. The images were centred in a 48px$ \times $48px image by computing the centre of mass of the pixels, and translating the image so as to position this point at the centre of the 48px$ \times $48px field. We will explain the whole procedure in details.
+
+As we mentioned in introduction part \ref{ch:introduction}, cracks on oracle bone script character are unavoidable, since they were created deliberately by diviners, heating by means of fire. Therefore, noise removal is of necessity for precise training.
+
+First, colours on each image were reversed (from white to black and vice versa) by applying \texttt{-negate} option; \texttt{-sample} option instead of \texttt{-resize} was used to allow either one side to be exactly 100 pixels or less. If not all sides are 100, then black borders were added around it. Noticeably, \texttt{file} command can sometimes indicate wrong file type so checking trash directory is of necessity. After the whole process, 112323 images were left for further use.
+
+Nevertheless, after pre-training neural network with relatively small samples (around 5000) for several times, we realised that the resolution 100px$ \times $100px might involve unnecessary calculation for limited hardware specifications that we had currently. Since there may be up to 4 layers of networks and the common max pooling size is 2$ \times $2, we hope that both width and height can be divided by 16. And when we adjusted image size to 64px$ \times $64px, the accuracy dropped from 65\% to 63\% for distinguishing merely 83 oracle bone script characters.
+
+Therefore, two more options were added to fulfil this task: \texttt{-trim} is used to remove white borders around the original images; \texttt{+repage} is used to adjust the canvas to the same size of the actual image. After that, we reduced two-thirds of actual running time and achieved more effective information of each image: the rate (the number of white pixels $ \div $ that of the whole image) rose from 7.5\% to 13.2\% on average. The Figure \ref{fig:comparison} shows comparison between 80px$ \times $80px resolution image (right) and 100px$ \times $100px one (left).
+\begin{figure}[h]
+	\centering
+	\includegraphics{100x100.png}
+	\includegraphics{80x80.png} 
+	\caption{Comparison of original image (left) and size-reduced one (right)}
+	\label{fig:comparison}
+\end{figure}
+
+In order to decide a suitable size for our training images, we traversed information of several well-known computer vision dataset, mainly on handwritten character recognition, which are usually prevailing in machine learning / deep learning research:
+\begin{itemize}
+	\item \textbf{MNIST}\footnote{\url{http://yann.lecun.com/exdb/mnist/}} It is probably the most famous training database in machine learning domain, with 70000 handwritten digits examples; all image resolution is 28px$ \times $28px .
+	\item \textbf{The Street View House Numbers (SVHN) Dataset}\footnote{\url{http://ufldl.stanford.edu/housenumbers/}} As its name indicates, there are over MNIST-like 600000 labelled digit photos obtained from Google Street View with resolution 32px$ \times $32px\cite{netzer2011reading}.
+	\item \textbf{HASYv2} It is a free of charge dataset similar to MNIST\cite{DBLP:journals/corr/Thoma17}. It contains 168233 single symbols of 369 classes. All is centred and of size 32px$ \times $32px.
+	\item \textbf{Chars74K dataset}\footnote{\url{http://www.ee.surrey.ac.uk/CVSSP/demos/chars74k/}} Chars74 contains symbols used both in English and Kannada\cite{deCampos09}; the size of handwritten image set is quite huge, with resolution 1200px$ \times $900px, however natural images (photos from real life) are all approximately 80px$ \times $80px.
+	\item \textbf{UJIpenchars2}\footnote{\url{https://archive.ics.uci.edu/ml/datasets/UJI+Pen+Characters+\%28Version+2\%29}} Total number of samples is 11640 and each image box is about 77px (20.4 mm)$ \times $51px (13.6 mm)\cite{llorens2008ujipenchars}.
+	\item \textbf{Pen-Based Recognition of Handwritten Digits} Dataset Raw images scanned by Wacom tablet were under 500px$ \times $500px and after normalisation, the size became 100px$ \times $100px\cite{alimoglu1996combining}. And after resampling, images were converted to bitmaps under several resolutions like 8px$ \times $8px, 12px$ \times $12px and 16px$ \times $16px.
+	\item \textbf{Letter Dataset} Authors of \cite{Frey1991} extracted letter images from 20 different fonts, with size 45px$ \times $45px on average.
+	\item \textbf{CIFAR-10}\footnote{\url{https://www.cs.toronto.edu/~kriz/cifar.html}} 60000 32px$ \times $32px colour images divided into 10 classes.
+	\item \textbf{HCL200} An off-line handwritten Chinese character recognition database with scanning resolution 300 DPIs; images become binary with size 64px$ \times $64px after normalisation\cite{zhang2009hcl2000}.
+	\item \cite{men2011xixia} worked on recognising Tangut scripts, an extinct logographic writing system similar to ancient Chinese famous for extremely complex strokes, using 48px$ \times $48px image size. And \cite{yifei2017} depended on MeanShift algorithm to identify Tangut script components and all images are in 100px$ \times $100px form.
+\end{itemize}
+
+This list can be very long, but typically image size is in the range from 20px to 100px, with square shape; it may has a few potential advantages. Therefore, we chosen 48px$ \times $48px as our final decision. Here is the core code in Bash that we used to finish all mentioned task above:
+\begin{lstlisting}[language = bash, caption = Image Preprocessing]
+# $file here represents each image file.
+SIZE_IN_PIXEL=48
+mogrify -trim +repage -negate -sample\
+${SIZE_IN_PIXEL}x${SIZE_IN_PIXEL} $file
+convert $file -background "#000000" -compose Copy\
+-gravity center -extent ${SIZE_IN_PIXEL}x${SIZE_IN_PIXEL} $file
+\end{lstlisting}
+
+And next, we run the script \texttt{data\_classification.sh} that renames all files in place and converts all lower-case letters (which indicate sources of images) to upper-case ones without changing file extension; also it classifies files into four folders according to their labels (Bronze, Seal, Oracle and LST). It is the final version of dataset before we actually trained our neural networks.
+
+Finally, the script \texttt{data\_selection.py} changes directory structure permanently so backup is compulsory before use. For each folder, It traverses the data, select characters with \texttt{\$THRESHOLD} (default value is 10) times appearances and then divide them into training set and test set randomly; percentage of selecting images from each character into training set is controlled by the variable \texttt{\$TRAINING\_SET\_RATE}.
